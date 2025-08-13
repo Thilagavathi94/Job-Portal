@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Builder - Jobsite</title>
+    <!-- Tailwind CSS CDN for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter font from Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7fafc;
+        }
+        .main-header {
+            background-color: #ffffff;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        .main-nav-link {
+            position: relative;
+            padding: 10px 15px;
+            text-transform: uppercase;
+            font-weight: 500;
+            color: #4a5568;
+            transition: color 0.3s ease;
+        }
+        .main-nav-link:hover,
+        .main-nav-link.active {
+            color: #3b82f6;
+        }
+        .main-nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            height: 2px;
+            background-color: #3b82f6;
+        }
+        .resume-preview {
+            background-color: #ffffff;
+            padding: 2rem;
+            border: 1px solid #e2e8f0;
+            min-height: 800px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        .resume-preview h2 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 0.25rem;
+        }
+        .resume-preview h3 {
+            font-weight: 600;
+        }
+        .resume-preview p {
+            font-size: 0.875rem;
+            line-height: 1.5;
+            color: #4a5568;
+        }
+        .resume-preview ul {
+            list-style-type: disc;
+            margin-left: 1.5rem;
+        }
+        .resume-preview li {
+            font-size: 0.875rem;
+            color: #4a5568;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <!-- Header starts -->
+    <header class="main-header sticky top-0 z-50">
+        <div class="container mx-auto px-4">
+            <nav class="flex items-center justify-between py-4">
+                <!-- Hamburger menu for mobile -->
+                <button id="mobile-menu-button" class="lg:hidden text-gray-700 focus:outline-none">
+                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                </button>
+                
+                <div class="hidden lg:flex items-center space-x-6 text-sm font-medium">
+                    <ul class="flex space-x-6">
+                        <li><a href="index.html" class="main-nav-link text-gray-700 hover:text-blue-500">Home</a></li>
+                        <li><a href="about.html" class="main-nav-link text-gray-700 hover:text-blue-500">About Us</a></li>
+                        <li><a href="job.html" class="main-nav-link text-gray-700 hover:text-blue-500">All Jobs</a></li>
+                        <li><a href="internship.html" class="main-nav-link text-gray-700 hover:text-blue-500">Internships</a></li>
+                        <li><a href="goverment.html" class="main-nav-link text-gray-700 hover:text-blue-500">Govt. Jobs</a></li>
+                        <li><a href="contact.html" class="main-nav-link text-gray-700 hover:text-blue-500">Contact Us</a></li>
+                    </ul>
+                </div>
+
+                <div class="flex items-center space-x-4">
+                    <div class="relative">
+                        <button id="user-menu-button" class="flex items-center focus:outline-none">
+                            <img src="img/profile.png" alt="User Avatar" class="rounded-full w-10 h-10 border-2 border-blue-500">
+                        </button>
+                        <div id="user-menu" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1">
+                            <a href="dashboard.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Dashboard</a>
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Edit Profile</a>
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Log Out</a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <!-- Header ends -->
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="lg:hidden hidden fixed inset-0 bg-white z-40 p-6 shadow-xl">
+        <div class="flex justify-end">
+            <button id="close-mobile-menu" class="text-gray-700 focus:outline-none">
+                <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+        <ul class="flex flex-col space-y-4 mt-8 text-lg font-medium">
+            <li><a href="#" class="block py-2 text-gray-700 hover:text-blue-500">Home</a></li>
+            <li><a href="#" class="block py-2 text-gray-700 hover:text-blue-500">About Us</a></li>
+            <li><a href="#" class="block py-2 text-gray-700 hover:text-blue-500">All Jobs</a></li>
+            <li><a href="#" class="block py-2 text-gray-700 hover:text-blue-500">Internships</a></li>
+            <li><a href="#" class="block py-2 text-gray-700 hover:text-blue-500">Govt. Jobs</a></li>
+            <li><a href="#" class="block py-2 text-gray-700 hover:text-blue-500">Contact Us</a></li>
+        </ul>
+    </div>
+    
+    <!-- Main content starts -->
+    <main class="flex-grow container mx-auto px-4 py-8">
+        <div class="text-center mb-10">
+            <h1 class="text-4xl font-bold text-gray-800">Build Your Resume</h1>
+            <p class="text-gray-600 mt-2">Create a professional resume in minutes with our easy-to-use builder.</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Left Column: Input Form -->
+            <div class="bg-white p-6 rounded-xl shadow-md">
+                <form id="resume-form" class="space-y-6">
+                    <!-- Contact Information -->
+                    <div>
+                        <h2 class="text-2xl font-bold mb-4 text-blue-600">Contact Information</h2>
+                        <label for="full-name" class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                        <input type="text" id="full-name" name="full-name" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="John Doe">
+                        
+                        <label for="email" class="block text-sm font-medium text-gray-700 mt-4 mb-1">Email</label>
+                        <input type="email" id="email" name="email" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="johndoe@example.com">
+                        
+                        <label for="phone" class="block text-sm font-medium text-gray-700 mt-4 mb-1">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="+1234567890">
+                    </div>
+
+                    <!-- Objective/Summary -->
+                    <div>
+                        <h2 class="text-2xl font-bold mb-4 text-blue-600">Objective / Summary</h2>
+                        <textarea id="objective" name="objective" rows="4" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="A brief summary of your professional goals and experience..."></textarea>
+                    </div>
+
+                    <!-- Education -->
+                    <div>
+                        <h2 class="text-2xl font-bold mb-4 text-blue-600">Education</h2>
+                        <div class="space-y-2">
+                            <label for="degree" class="block text-sm font-medium text-gray-700 mb-1">Degree</label>
+                            <input type="text" id="degree" name="degree" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="B.S. in Computer Science">
+                            
+                            <label for="university" class="block text-sm font-medium text-gray-700 mb-1">University</label>
+                            <input type="text" id="university" name="university" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="University of XYZ">
+                            
+                            <label for="graduation-year" class="block text-sm font-medium text-gray-700 mb-1">Graduation Year</label>
+                            <input type="text" id="graduation-year" name="graduation-year" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="2022">
+                        </div>
+                    </div>
+                    
+                    <!-- Work Experience -->
+                    <div>
+                        <h2 class="text-2xl font-bold mb-4 text-blue-600">Work Experience</h2>
+                        <label for="job-title" class="block text-sm font-medium text-gray-700 mb-1">Job Title</label>
+                        <input type="text" id="job-title" name="job-title" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Software Engineer">
+                        
+                        <label for="company" class="block text-sm font-medium text-gray-700 mt-4 mb-1">Company</label>
+                        <input type="text" id="company" name="company" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Tech Solutions Inc.">
+
+                        <label for="job-description" class="block text-sm font-medium text-gray-700 mt-4 mb-1">Job Responsibilities</label>
+                        <textarea id="job-description" name="job-description" rows="4" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Implemented new features, optimized code..."></textarea>
+                    </div>
+
+                    <!-- Skills -->
+                    <div>
+                        <h2 class="text-2xl font-bold mb-4 text-blue-600">Skills</h2>
+                        <label for="skills" class="block text-sm font-medium text-gray-700 mb-1">Technical Skills</label>
+                        <textarea id="skills" name="skills" rows="3" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="List your skills, separated by commas (e.g., JavaScript, React, Python)"></textarea>
+                    </div>
+
+                    <button id="download-button" type="button" class="w-full bg-green-600 text-white font-semibold py-3 px-6 rounded-lg hover:bg-green-700 transition-colors duration-300">
+                        Download Resume
+                    </button>
+                </form>
+            </div>
+            
+            <!-- Right Column: Live Resume Preview -->
+            <div id="resume-preview-container" class="sticky top-20 h-full p-6 lg:p-0">
+                <div class="resume-preview rounded-xl">
+                    <!-- Resume content will be generated here -->
+                </div>
+            </div>
+        </div>
+    </main>
+    <!-- Main content ends -->
+
+    <!-- Footer starts -->
+    <footer class="bg-gray-800 text-white py-12 mt-auto">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- Column 1: Information -->
+                <div>
+                    <h6 class="text-xl font-bold mb-4">Information</h6>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors duration-200">About Us</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors duration-200">Contact Us</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors duration-200">Terms of Use</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors duration-200">FAQs</a></li>
+                    </ul>
+                </div>
+                <!-- Column 2: Job Seekers -->
+                <div>
+                    <h6 class="text-xl font-bold mb-4">Job Seekers</h6>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors duration-200">Job Search</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors duration-200">Career Advice</a></li>
+                        <li><a href="resume.html" class="hover:text-white transition-colors duration-200">Resume Builder</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors duration-200">Report a Problem</a></li>
+                    </ul>
+                </div>
+                <!-- Column 3: Employers -->
+                <div>
+                    <h6 class="text-xl font-bold mb-4">Employers</h6>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="jobposting.html" class="hover:text-white transition-colors duration-200">Job Posting</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors duration-200">Advertise With Us</a></li>
+                        <li><a href="accessresume.html" class="hover:text-white transition-colors duration-200">Access Resumes</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors duration-200">FAQs</a></li>
+                    </ul>
+                </div>
+                <!-- Column 4: Stay Connected -->
+                <div>
+                    <h6 class="text-xl font-bold mb-4">Stay Connected</h6>
+                    <div class="flex flex-col space-y-2 text-sm text-gray-400">
+                        <a href="#" class="hover:text-white transition-colors duration-200"><i class="fa fa-facebook-official mr-2"></i>Facebook</a>
+                        <a href="#" class="hover:text-white transition-colors duration-200"><i class="fa fa-twitter mr-2"></i>Twitter</a>
+                        <a href="#" class="hover:text-white transition-colors duration-200"><i class="fa fa-linkedin mr-2"></i>LinkedIn</a>
+                        <a href="#" class="hover:text-white transition-colors duration-200"><i class="fa fa-instagram mr-2"></i>Instagram</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mt-8 pt-4 border-t border-gray-700 text-center text-gray-500 text-sm">
+            &copy; 2024 Jobsite. All Rights Reserved.
+        </div>
+    </footer>
+    <!-- Footer ends -->
+
+    <script>
+        // JavaScript for mobile menu and user dropdown
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const closeMobileMenu = document.getElementById('close-mobile-menu');
+        const userMenuButton = document.getElementById('user-menu-button');
+        const userMenu = document.getElementById('user-menu');
+        const form = document.getElementById('resume-form');
+        const previewContainer = document.querySelector('.resume-preview');
+        const allInputs = form.querySelectorAll('input, textarea');
+        const downloadButton = document.getElementById('download-button');
+
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.remove('hidden');
+        });
+        closeMobileMenu.addEventListener('click', () => {
+            mobileMenu.classList.add('hidden');
+        });
+
+        userMenuButton.addEventListener('click', (e) => {
+            e.stopPropagation();
+            userMenu.classList.toggle('hidden');
+        });
+
+        window.addEventListener('click', (event) => {
+            if (!userMenuButton.contains(event.target) && !userMenu.contains(event.target)) {
+                userMenu.classList.add('hidden');
+            }
+        });
+
+        // --- Resume Builder Logic ---
+
+        // Function to render the resume preview based on form data
+        function renderResume() {
+            const fullName = document.getElementById('full-name').value || 'Your Name';
+            const email = document.getElementById('email').value || 'your.email@example.com';
+            const phone = document.getElementById('phone').value || '+1 (555) 123-4567';
+            const objective = document.getElementById('objective').value || 'A brief professional summary of your skills and career objectives.';
+            const degree = document.getElementById('degree').value || 'B.S. in Computer Science';
+            const university = document.getElementById('university').value || 'University of XYZ';
+            const graduationYear = document.getElementById('graduation-year').value || '2022';
+            const jobTitle = document.getElementById('job-title').value || 'Job Title';
+            const company = document.getElementById('company').value || 'Company Name';
+            const jobDescription = document.getElementById('job-description').value || 'Key responsibilities and achievements in this role.';
+            const skills = document.getElementById('skills').value || 'Skill 1, Skill 2, Skill 3';
+
+            const resumeHtml = `
+                <div class="text-center pb-4 border-b border-gray-200 mb-4">
+                    <h1 class="text-3xl font-bold text-gray-800">${fullName}</h1>
+                    <p class="text-sm text-gray-500 mt-1">${email} | ${phone}</p>
+                </div>
+                
+                ${objective ? `
+                <div>
+                    <h2>Objective</h2>
+                    <p class="mt-2">${objective}</p>
+                </div>` : ''}
+
+                ${degree || university || graduationYear ? `
+                <div>
+                    <h2>Education</h2>
+                    <div class="mt-2">
+                        <h3 class="text-base">${degree}</h3>
+                        <p>${university}</p>
+                        <p>${graduationYear}</p>
+                    </div>
+                </div>` : ''}
+
+                ${jobTitle || company || jobDescription ? `
+                <div>
+                    <h2>Work Experience</h2>
+                    <div class="mt-2">
+                        <h3 class="text-base">${jobTitle}</h3>
+                        <p class="text-gray-600">${company}</p>
+                        <ul class="list-disc ml-6 mt-1 text-sm">
+                            <li>${jobDescription.split('\n').join('</li><li>')}</li>
+                        </ul>
+                    </div>
+                </div>` : ''}
+
+                ${skills ? `
+                <div>
+                    <h2>Skills</h2>
+                    <p class="mt-2">${skills}</p>
+                </div>` : ''}
+            `;
+
+            previewContainer.innerHTML = resumeHtml;
+        }
+
+        // Add event listeners to all form inputs to trigger a live preview update
+        allInputs.forEach(input => {
+            input.addEventListener('keyup', renderResume);
+            input.addEventListener('change', renderResume); // For paste events etc.
+        });
+
+        // Download functionality
+        downloadButton.addEventListener('click', () => {
+            // Get the content of the resume preview
+            const resumeContent = previewContainer.innerHTML;
+
+            // Create a Blob with the resume content
+            const blob = new Blob([resumeContent], { type: 'text/html' });
+
+            // Create a temporary link element
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = 'my-resume.html';
+            document.body.appendChild(a);
+            
+            // Trigger the download
+            a.click();
+            
+            // Clean up by removing the link and revoking the object URL
+            document.body.removeChild(a);
+            URL.revokeObjectURL(a.href);
+        });
+
+        // Initial render on page load
+        document.addEventListener('DOMContentLoaded', renderResume);
+    </script>
+</body>
+</html>

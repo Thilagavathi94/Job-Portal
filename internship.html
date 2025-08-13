@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Internships - Jobsite</title>
+    <!-- Tailwind CSS CDN for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter font from Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7fafc;
+        }
+        .main-header {
+            background-color: #ffffff;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        .main-nav-link {
+            position: relative;
+            padding: 10px 15px;
+            text-transform: uppercase;
+            font-weight: 500;
+            color: #4a5568;
+            transition: color 0.3s ease;
+        }
+        .main-nav-link:hover,
+        .main-nav-link.active {
+            color: #3b82f6;
+        }
+        .main-nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            height: 2px;
+            background-color: #3b82f6;
+        }
+        .internship-card {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out;
+        }
+        .internship-card:hover {
+            transform: translateY(-5px);
+        }
+        .skill-tag {
+            background-color: #e2e8f0;
+            color: #4a5568;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <!-- Header starts -->
+    <header class="main-header sticky top-0 z-50">
+        <div class="container mx-auto px-4">
+            <nav class="flex items-center justify-between py-4">
+                <!-- Hamburger menu for mobile -->
+                <button id="mobile-menu-button" class="lg:hidden text-gray-700 focus:outline-none">
+                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                </button>
+                
+                <div class="hidden lg:flex items-center space-x-6 text-sm font-medium">
+                    <ul class="flex space-x-6">
+                        <li><a href="index.html" class="main-nav-link text-gray-700 hover:text-blue-500">Home</a></li>
+                        <li><a href="about.html" class="main-nav-link text-gray-700 hover:text-blue-500">About Us</a></li>
+                        <li><a href="job.html" class="main-nav-link text-gray-700 hover:text-blue-500">All Jobs</a></li>
+                        <li><a href="internship.html" class="main-nav-link active">Internships</a></li>
+                        <li><a href="goverment.html" class="main-nav-link text-gray-700 hover:text-blue-500">Govt. Jobs</a></li>
+                        <li><a href="contact.html" class="main-nav-link text-gray-700 hover:text-blue-500">Contact Us</a></li>
+                    </ul>
+                </div>
+
+                <div class="flex items-center space-x-4">
+                    <div class="relative">
+                        <button id="user-menu-button" class="flex items-center focus:outline-none">
+                            <img src="img/profile.png" alt="User Avatar" class="rounded-full w-10 h-10 border-2 border-blue-500">
+                        </button>
+                        <div id="user-menu" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1">
+                            <a href="dashboard.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Dashboard</a>
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Edit Profile</a>
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Log Out</a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <!-- Header ends -->
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="lg:hidden hidden fixed inset-0 bg-white z-40 p-6 shadow-xl">
+        <div class="flex justify-end">
+            <button id="close-mobile-menu" class="text-gray-700 focus:outline-none">
+                <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+        <ul class="flex flex-col space-y-4 mt-8 text-lg font-medium">
+            <li><a href="#" class="block py-2 text-gray-700 hover:text-blue-500">Home</a></li>
+            <li><a href="#" class="block py-2 text-gray-700 hover:text-blue-500">About Us</a></li>
+            <li><a href="#" class="block py-2 text-gray-700 hover:text-blue-500">All Jobs</a></li>
+            <li><a href="#" class="block py-2 text-blue-500">Internships</a></li>
+            <li><a href="#" class="block py-2 text-gray-700 hover:text-blue-500">Govt. Jobs</a></li>
+            <li><a href="#" class="block py-2 text-gray-700 hover:text-blue-500">Contact Us</a></li>
+        </ul>
+    </div>
+    
+    <!-- Main content starts -->
+    <main class="flex-grow container mx-auto px-4 py-8">
+        <div class="text-center mb-10">
+            <h1 class="text-4xl font-bold text-gray-800">Find Your Dream Internship</h1>
+            <p class="text-gray-600 mt-2">Kickstart your career with internships from top companies.</p>
+        </div>
+
+        <!-- Search and Filter Section -->
+        <div class="bg-white p-6 rounded-xl shadow-md mb-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <input type="text" id="search-title" placeholder="Internship Title, Keywords..." class="p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <input type="text" id="search-location" placeholder="Location" class="p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <select id="search-duration" class="p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option value="">Duration</option>
+                    <option value="1-3">1-3 Months</option>
+                    <option value="3-6">3-6 Months</option>
+                    <option value="6+">6+ Months</option>
+                </select>
+                <button id="search-button" class="bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg hover:bg-blue-700 transition-colors duration-300">
+                    Search Internships
+                </button>
+            </div>
+        </div>
+
+        <!-- Internship Listings -->
+        <div id="internship-listings-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Internship cards will be dynamically inserted here by JavaScript -->
+        </div>
+
+    </main>
+    <!-- Main content ends -->
+
+    <!-- Footer starts -->
+    <footer class="bg-gray-800 text-white py-12 mt-auto">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- Column 1: Information -->
+                <div>
+                    <h6 class="text-xl font-bold mb-4">Information</h6>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors duration-200">About Us</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors duration-200">Contact Us</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors duration-200">Terms of Use</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors duration-200">FAQs</a></li>
+                    </ul>
+                </div>
+                <!-- Column 2: Job Seekers -->
+                <div>
+                    <h6 class="text-xl font-bold mb-4">Job Seekers</h6>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors duration-200">Job Search</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors duration-200">Career Advice</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors duration-200">Resume Builder</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors duration-200">Report a Problem</a></li>
+                    </ul>
+                </div>
+                <!-- Column 3: Employers -->
+                <div>
+                    <h6 class="text-xl font-bold mb-4">Employers</h6>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors duration-200">Job Posting</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors duration-200">Advertise With Us</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors duration-200">Access Resumes</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors duration-200">FAQs</a></li>
+                    </ul>
+                </div>
+                <!-- Column 4: Stay Connected -->
+                <div>
+                    <h6 class="text-xl font-bold mb-4">Stay Connected</h6>
+                    <div class="flex flex-col space-y-2 text-sm text-gray-400">
+                        <a href="#" class="hover:text-white transition-colors duration-200"><i class="fa fa-facebook-official mr-2"></i>Facebook</a>
+                        <a href="#" class="hover:text-white transition-colors duration-200"><i class="fa fa-twitter mr-2"></i>Twitter</a>
+                        <a href="#" class="hover:text-white transition-colors duration-200"><i class="fa fa-linkedin mr-2"></i>LinkedIn</a>
+                        <a href="#" class="hover:text-white transition-colors duration-200"><i class="fa fa-instagram mr-2"></i>Instagram</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mt-8 pt-4 border-t border-gray-700 text-center text-gray-500 text-sm">
+            &copy; 2024 Jobsite. All Rights Reserved.
+        </div>
+    </footer>
+    <!-- Footer ends -->
+
+    <script>
+        // JavaScript for mobile menu and user dropdown
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const closeMobileMenu = document.getElementById('close-mobile-menu');
+        const userMenuButton = document.getElementById('user-menu-button');
+        const userMenu = document.getElementById('user-menu');
+
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.remove('hidden');
+        });
+        closeMobileMenu.addEventListener('click', () => {
+            mobileMenu.classList.add('hidden');
+        });
+
+        userMenuButton.addEventListener('click', (e) => {
+            e.stopPropagation();
+            userMenu.classList.toggle('hidden');
+        });
+
+        // Close dropdown when clicking outside
+        window.addEventListener('click', (event) => {
+            if (!userMenuButton.contains(event.target) && !userMenu.contains(event.target)) {
+                userMenu.classList.add('hidden');
+            }
+        });
+
+        // --- All Internships Page Logic ---
+        const internships = [
+            { id: 1, title: 'Python Intern', company: 'Tech Innovators Inc.', location: 'Delhi', duration: '3-6 months', durationGroup: '3-6', stipend: '₹15,000 P.M.', skills: ['Python', 'Data Analysis', 'Web Scraping'], description: 'Assist our development team with data processing and small-scale automation tasks using Python.' },
+            { id: 2, title: 'Front-End Development Intern', company: 'Web Solutions Co.', location: 'Bangalore', duration: '6+ months', durationGroup: '6+', stipend: '₹20,000 P.M.', skills: ['React', 'JavaScript', 'HTML', 'CSS'], description: 'Work alongside senior developers to build and maintain user interfaces for our web applications.' },
+            { id: 3, title: 'UI/UX Design Intern', company: 'Creative Studios', location: 'Mumbai', duration: '1-3 months', durationGroup: '1-3', stipend: '₹12,000 P.M.', skills: ['Figma', 'Prototyping', 'User Research'], description: 'Support the design team in creating wireframes, mockups, and prototypes for various projects.' },
+            { id: 4, title: 'Data Science Intern', company: 'Data Insights Ltd.', location: 'Hyderabad', duration: '6+ months', durationGroup: '6+', stipend: '₹25,000 P.M.', skills: ['Python', 'R', 'SQL', 'Pandas'], description: 'Analyze and interpret large datasets to help us uncover valuable business insights.' },
+            { id: 5, title: 'Social Media Marketing Intern', company: 'Market Pulse', location: 'Pune', duration: '3-6 months', durationGroup: '3-6', stipend: '₹10,000 P.M.', skills: ['Content Creation', 'Social Media Management', 'Analytics'], description: 'Manage our social media channels, create engaging content, and track performance metrics.' },
+            { id: 6, title: 'Human Resources Intern', company: 'Global Solutions', location: 'Bangalore', duration: '1-3 months', durationGroup: '1-3', stipend: '₹8,000 P.M.', skills: ['Recruitment', 'Onboarding', 'HRIS'], description: 'Assist the HR department with various administrative tasks and support the recruitment process.' },
+        ];
+
+        const internshipListingsContainer = document.getElementById('internship-listings-container');
+        const searchButton = document.getElementById('search-button');
+        const searchTitleInput = document.getElementById('search-title');
+        const searchLocationInput = document.getElementById('search-location');
+        const searchDurationSelect = document.getElementById('search-duration');
+        
+        // Function to render internship cards to the DOM
+        function renderInternships(filteredInternships) {
+            internshipListingsContainer.innerHTML = '';
+            if (filteredInternships.length === 0) {
+                internshipListingsContainer.innerHTML = '<p class="text-center col-span-full text-gray-500 text-xl">No internships found matching your criteria.</p>';
+                return;
+            }
+
+            filteredInternships.forEach(internship => {
+                const internshipCard = document.createElement('div');
+                internshipCard.className = 'bg-white p-6 rounded-xl shadow-md flex flex-col justify-between internship-card';
+                
+                const skillsHtml = internship.skills.map(skill => `<span class="skill-tag">${skill}</span>`).join('');
+                
+                internshipCard.innerHTML = `
+                    <div>
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="text-xl font-bold text-gray-800">${internship.title}</h3>
+                            <i class="fa fa-heart-o text-gray-400 text-2xl hover:text-red-500 cursor-pointer transition-colors duration-200"></i>
+                        </div>
+                        <h4 class="text-gray-600 mb-4">${internship.company}</h4>
+                        <div class="text-gray-500 text-sm space-y-1 mb-4">
+                            <div class="flex items-center"><i class="fa fa-clock-o w-6 text-center"></i><span>${internship.duration}</span></div>
+                            <div class="flex items-center"><i class="fa fa-inr w-6 text-center"></i><span class="price">${internship.stipend}</span></div>
+                            <div class="flex items-center"><i class="fa fa-map-marker w-6 text-center"></i><span class="location">${internship.location}</span></div>
+                        </div>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            ${skillsHtml}
+                        </div>
+                        <p class="text-gray-500 text-sm line-clamp-3">${internship.description}</p>
+                    </div>
+                    <div class="mt-4 flex justify-end">
+                        <button class="bg-blue-600 text-white font-semibold py-2 px-6 rounded-lg hover:bg-blue-700 transition-colors duration-300">
+                            Apply
+                        </button>
+                    </div>
+                `;
+                internshipListingsContainer.appendChild(internshipCard);
+            });
+        }
+
+        // Function to filter internships based on search criteria
+        function filterInternships() {
+            const searchTerm = searchTitleInput.value.toLowerCase();
+            const locationTerm = searchLocationInput.value.toLowerCase();
+            const durationGroup = searchDurationSelect.value;
+            
+            const filtered = internships.filter(internship => {
+                const titleMatch = internship.title.toLowerCase().includes(searchTerm);
+                const locationMatch = internship.location.toLowerCase().includes(locationTerm);
+                const durationMatch = durationGroup ? internship.durationGroup === durationGroup : true;
+
+                return titleMatch && locationMatch && durationMatch;
+            });
+            
+            renderInternships(filtered);
+        }
+
+        // Add event listener to the search button
+        searchButton.addEventListener('click', filterInternships);
+
+        // Initial render of all internships on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            renderInternships(internships);
+        });
+
+    </script>
+</body>
+</html>

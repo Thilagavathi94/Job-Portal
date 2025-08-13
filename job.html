@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Jobs - Jobsite</title>
+    <!-- Tailwind CSS CDN for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter font from Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7fafc;
+        }
+        .main-header {
+            background-color: #ffffff;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        .main-nav-link {
+            position: relative;
+            padding: 10px 15px;
+            text-transform: uppercase;
+            font-weight: 500;
+            color: #4a5568;
+            transition: color 0.3s ease;
+        }
+        .main-nav-link:hover,
+        .main-nav-link.active {
+            color: #3b82f6;
+        }
+        .main-nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            height: 2px;
+            background-color: #3b82f6;
+        }
+        .job-card {
+            background-color: #ffffff;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .job-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 1rem;
+            text-align: center;
+        }
+        .close-button {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close-button:hover,
+        .close-button:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <!-- Header starts -->
+    <header class="main-header sticky top-0 z-50">
+        <div class="container mx-auto px-4">
+            <nav class="flex items-center justify-between py-4">
+                <!-- Hamburger menu for mobile -->
+                <button id="mobile-menu-button" class="lg:hidden text-gray-700 focus:outline-none">
+                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                </button>
+                
+                <div class="hidden lg:flex items-center space-x-6 text-sm font-medium">
+                    <ul class="flex space-x-6">
+                        <li><a href="index.html" class="main-nav-link text-gray-700 hover:text-blue-500">Home</a></li>
+                        <li><a href="about.html" class="main-nav-link text-gray-700 hover:text-blue-500">About Us</a></li>
+                        <li><a href="job.html" class="main-nav-link active">All Jobs</a></li>
+                        <li><a href="internship.html" class="main-nav-link text-gray-700 hover:text-blue-500">Internships</a></li>
+                        <li><a href="goverment.html" class="main-nav-link text-gray-700 hover:text-blue-500">Govt. Jobs</a></li>
+                        <li><a href="contact.html" class="main-nav-link text-gray-700 hover:text-blue-500">Contact Us</a></li>
+                    </ul>
+                </div>
+
+                <div class="flex items-center space-x-4">
+                    <div class="relative">
+                        <button id="user-menu-button" class="flex items-center focus:outline-none">
+                            <img src="img/profile.png" alt="User Avatar" class="rounded-full w-10 h-10 border-2 border-blue-500">
+                        </button>
+                        <div id="user-menu" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1">
+                            <a href="dashboard.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Dashboard</a>
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Edit Profile</a>
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Log Out</a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <!-- Header ends -->
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="lg:hidden hidden fixed inset-0 bg-white z-40 p-6 shadow-xl">
+        <div class="flex justify-end">
+            <button id="close-mobile-menu" class="text-gray-700 focus:outline-none">
+                <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+        <ul class="flex flex-col space-y-4 mt-8 text-lg font-medium">
+            <li><a href="#" class="block py-2 text-gray-700 hover:text-blue-500">Home</a></li>
+            <li><a href="#" class="block py-2 text-gray-700 hover:text-blue-500">About Us</a></li>
+            <li><a href="#" class="block py-2 text-gray-700 hover:text-blue-500">All Jobs</a></li>
+            <li><a href="#" class="block py-2 text-gray-700 hover:text-blue-500">Internships</a></li>
+            <li><a href="#" class="block py-2 text-gray-700 hover:text-blue-500">Govt. Jobs</a></li>
+            <li><a href="#" class="block py-2 text-gray-700 hover:text-blue-500">Contact Us</a></li>
+        </ul>
+    </div>
+    
+    <!-- Main content starts -->
+    <main class="flex-grow container mx-auto px-4 py-8">
+        <div class="text-center mb-10">
+            <h1 class="text-4xl font-bold text-gray-800">All Available Jobs</h1>
+            <p class="text-gray-600 mt-2">Browse through a wide variety of job openings and find your next career move.</p>
+        </div>
+        
+        <!-- Job Cards List -->
+        <div id="job-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Job cards will be dynamically added here -->
+        </div>
+    </main>
+    <!-- Main content ends -->
+
+    <!-- Application Submitted Modal -->
+    <div id="application-modal" class="modal">
+      <div class="modal-content">
+        <span class="close-button">&times;</span>
+        <div class="py-8">
+            <svg class="mx-auto h-16 w-16 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+            </svg>
+            <h3 class="text-2xl font-bold text-gray-800 mt-4">Application Submitted!</h3>
+            <p class="text-gray-600 mt-2">Your application for <span id="modal-job-title" class="font-semibold text-blue-600"></span> has been received.</p>
+            <p class="text-gray-500 mt-1 text-sm">We will be in touch with you shortly.</p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Footer starts -->
+    <footer class="bg-gray-800 text-white py-12 mt-auto">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- Column 1: Information -->
+                <div>
+                    <h6 class="text-xl font-bold mb-4">Information</h6>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors duration-200">About Us</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors duration-200">Contact Us</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors duration-200">Terms of Use</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors duration-200">FAQs</a></li>
+                    </ul>
+                </div>
+                <!-- Column 2: Job Seekers -->
+                <div>
+                    <h6 class="text-xl font-bold mb-4">Job Seekers</h6>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors duration-200">Job Search</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors duration-200">Career Advice</a></li>
+                        <li><a href="resume.html" class="hover:text-white transition-colors duration-200">Resume Builder</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors duration-200">Report a Problem</a></li>
+                    </ul>
+                </div>
+                <!-- Column 3: Employers -->
+                <div>
+                    <h6 class="text-xl font-bold mb-4">Employers</h6>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="jobposting.html" class="hover:text-white transition-colors duration-200">Job Posting</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors duration-200">Advertise With Us</a></li>
+                        <li><a href="accessresume.html" class="hover:text-white transition-colors duration-200">Access Resumes</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors duration-200">FAQs</a></li>
+                    </ul>
+                </div>
+                <!-- Column 4: Stay Connected -->
+                <div>
+                    <h6 class="text-xl font-bold mb-4">Stay Connected</h6>
+                    <div class="flex flex-col space-y-2 text-sm text-gray-400">
+                        <a href="#" class="hover:text-white transition-colors duration-200"><i class="fa fa-facebook-official mr-2"></i>Facebook</a>
+                        <a href="#" class="hover:text-white transition-colors duration-200"><i class="fa fa-twitter mr-2"></i>Twitter</a>
+                        <a href="#" class="hover:text-white transition-colors duration-200"><i class="fa fa-linkedin mr-2"></i>LinkedIn</a>
+                        <a href="#" class="hover:text-white transition-colors duration-200"><i class="fa fa-instagram mr-2"></i>Instagram</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mt-8 pt-4 border-t border-gray-700 text-center text-gray-500 text-sm">
+            &copy; 2024 Jobsite. All Rights Reserved.
+        </div>
+    </footer>
+    <!-- Footer ends -->
+
+    <script>
+        // JavaScript for mobile menu and user dropdown
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const closeMobileMenu = document.getElementById('close-mobile-menu');
+        const userMenuButton = document.getElementById('user-menu-button');
+        const userMenu = document.getElementById('user-menu');
+
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.remove('hidden');
+        });
+        closeMobileMenu.addEventListener('click', () => {
+            mobileMenu.classList.add('hidden');
+        });
+
+        userMenuButton.addEventListener('click', (e) => {
+            e.stopPropagation();
+            userMenu.classList.toggle('hidden');
+        });
+
+        window.addEventListener('click', (event) => {
+            if (!userMenuButton.contains(event.target) && !userMenu.contains(event.target)) {
+                userMenu.classList.add('hidden');
+            }
+        });
+
+        // Mock job data for demonstration
+        const jobs = [
+            {
+                id: 1,
+                title: 'Senior Software Engineer',
+                company: 'Tech Solutions Inc.',
+                location: 'Remote',
+                description: 'We are looking for a highly skilled Senior Software Engineer to join our team. You will be responsible for building and maintaining our core product.',
+                tags: ['Full-Stack', 'JavaScript', 'React', 'Node.js']
+            },
+            {
+                id: 2,
+                title: 'Product Manager',
+                company: 'Creative Labs',
+                location: 'San Francisco, CA',
+                description: 'Seeking an experienced Product Manager to lead our new product line from concept to launch. Must have a strong understanding of market trends.',
+                tags: ['Product Management', 'Agile', 'Strategy']
+            },
+            {
+                id: 3,
+                title: 'UX/UI Designer',
+                company: 'Design First',
+                location: 'New York, NY',
+                description: 'A talented UX/UI Designer is needed to create intuitive and aesthetically pleasing user interfaces for our mobile and web applications.',
+                tags: ['UX Design', 'UI Design', 'Figma', 'Prototyping']
+            },
+            {
+                id: 4,
+                title: 'Data Scientist',
+                company: 'Data Insights Co.',
+                location: 'Boston, MA',
+                description: 'Join our team as a Data Scientist and help us analyze large datasets to uncover insights and drive business decisions.',
+                tags: ['Data Science', 'Python', 'Machine Learning', 'SQL']
+            },
+            {
+                id: 5,
+                title: 'Marketing Specialist',
+                company: 'Global Marketing',
+                location: 'Remote',
+                description: 'We are hiring a Marketing Specialist to manage our digital campaigns, social media, and content creation efforts.',
+                tags: ['Marketing', 'SEO', 'Content Creation', 'Social Media']
+            }
+        ];
+
+        // --- New functionality for saving jobs using localStorage ---
+        
+        // Helper function to get saved jobs from localStorage
+        function getSavedJobs() {
+            try {
+                const savedJobs = JSON.parse(localStorage.getItem('savedJobs')) || [];
+                return savedJobs;
+            } catch (e) {
+                console.error("Could not parse saved jobs from localStorage", e);
+                return [];
+            }
+        }
+        
+        // Helper function to save jobs to localStorage
+        function saveJobs(jobsToSave) {
+            localStorage.setItem('savedJobs', JSON.stringify(jobsToSave));
+        }
+
+        // Helper function to get applied jobs from localStorage
+        function getAppliedJobs() {
+            try {
+                const appliedJobs = JSON.parse(localStorage.getItem('appliedJobs')) || [];
+                return appliedJobs;
+            } catch (e) {
+                console.error("Could not parse applied jobs from localStorage", e);
+                return [];
+            }
+        }
+
+        // Helper function to save applied jobs to localStorage
+        function saveAppliedJobs(jobsToSave) {
+            localStorage.setItem('appliedJobs', JSON.stringify(jobsToSave));
+        }
+
+        // Function to update the save button state on a job card
+        function updateSaveButtonState(button, isSaved) {
+            const icon = button.querySelector('i');
+            if (isSaved) {
+                button.classList.remove('bg-gray-200', 'text-gray-700');
+                button.classList.add('bg-blue-600', 'text-white');
+                button.innerHTML = `<i class="fa fa-heart mr-2"></i>Saved`;
+            } else {
+                button.classList.remove('bg-blue-600', 'text-white');
+                button.classList.add('bg-gray-200', 'text-gray-700');
+                button.innerHTML = `<i class="fa fa-heart-o mr-2"></i>Save Job`;
+            }
+        }
+
+        // Function to render job cards dynamically
+        function renderJobs() {
+            const jobList = document.getElementById('job-list');
+            jobList.innerHTML = ''; // Clear existing cards
+            const savedJobs = getSavedJobs();
+            const appliedJobs = getAppliedJobs();
+
+            jobs.forEach(job => {
+                const isJobSaved = savedJobs.some(savedJob => savedJob.id === job.id);
+                const isJobApplied = appliedJobs.some(appliedJob => appliedJob.id === job.id);
+                
+                const card = document.createElement('div');
+                card.classList.add('job-card');
+                card.innerHTML = `
+                    <h3 class="text-xl font-bold">${job.title}</h3>
+                    <p class="text-gray-600 mt-1">${job.company}</p>
+                    <p class="text-sm text-gray-500 mt-1"><i class="fa fa-map-marker mr-2"></i>${job.location}</p>
+                    <p class="text-gray-700 mt-4">${job.description}</p>
+                    <div class="mt-4 flex flex-wrap gap-2">
+                        ${job.tags.map(tag => `<span class="bg-gray-200 text-gray-800 text-xs font-semibold px-2 py-1 rounded-full">${tag}</span>`).join('')}
+                    </div>
+                    <div class="mt-6 flex justify-between items-center">
+                        <button class="apply-now-button bg-blue-600 text-white font-semibold py-2 px-6 rounded-lg hover:bg-blue-700 transition-colors duration-300" 
+                                data-job-id="${job.id}" data-job-title="${job.title}" data-company="${job.company}" ${isJobApplied ? 'disabled' : ''}>
+                            ${isJobApplied ? 'Applied' : 'Apply Now'}
+                        </button>
+                        <button class="save-job-button font-semibold py-2 px-6 rounded-lg transition-colors duration-300" data-job-id="${job.id}" data-job-title="${job.title}" data-company="${job.company}">
+                            <i class="fa ${isJobSaved ? 'fa-heart' : 'fa-heart-o'} mr-2"></i>${isJobSaved ? 'Saved' : 'Save Job'}
+                        </button>
+                    </div>
+                `;
+                // Set initial button style
+                const saveButton = card.querySelector('.save-job-button');
+                updateSaveButtonState(saveButton, isJobSaved);
+
+                jobList.appendChild(card);
+            });
+
+            // Add event listeners to the new buttons
+            document.querySelectorAll('.apply-now-button').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const jobId = parseInt(e.currentTarget.getAttribute('data-job-id'));
+                    const jobTitle = e.currentTarget.getAttribute('data-job-title');
+                    const company = e.currentTarget.getAttribute('data-company');
+                    
+                    let appliedJobs = getAppliedJobs();
+                    const isJobApplied = appliedJobs.some(job => job.id === jobId);
+
+                    if (!isJobApplied) {
+                        appliedJobs.push({ id: jobId, jobTitle: jobTitle, company: company, status: 'Submitted' });
+                        saveAppliedJobs(appliedJobs);
+                        // Update button state visually
+                        e.currentTarget.disabled = true;
+                        e.currentTarget.textContent = 'Applied';
+                    }
+                    showApplicationModal(jobId);
+                });
+            });
+
+            document.querySelectorAll('.save-job-button').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const jobId = parseInt(e.currentTarget.getAttribute('data-job-id'));
+                    const jobTitle = e.currentTarget.getAttribute('data-job-title');
+                    const company = e.currentTarget.getAttribute('data-company');
+                    
+                    let savedJobs = getSavedJobs();
+                    const isJobSaved = savedJobs.some(job => job.id === jobId);
+
+                    if (isJobSaved) {
+                        savedJobs = savedJobs.filter(job => job.id !== jobId);
+                        updateSaveButtonState(e.currentTarget, false);
+                    } else {
+                        savedJobs.push({ id: jobId, jobTitle: jobTitle, company: company });
+                        updateSaveButtonState(e.currentTarget, true);
+                    }
+                    saveJobs(savedJobs);
+                });
+            });
+        }
+
+        // Modal functionality
+        const applicationModal = document.getElementById('application-modal');
+        const modalJobTitle = document.getElementById('modal-job-title');
+        const modalCloseButton = applicationModal.querySelector('.close-button');
+
+        function showApplicationModal(id) {
+            const job = jobs.find(j => j.id == id);
+            if (job) {
+                modalJobTitle.textContent = job.title;
+                applicationModal.style.display = 'block';
+            }
+        }
+        
+        modalCloseButton.addEventListener('click', () => {
+            applicationModal.style.display = 'none';
+        });
+
+        window.addEventListener('click', (event) => {
+            if (event.target === applicationModal) {
+                applicationModal.style.display = 'none';
+            }
+        });
+
+        // Initial render on page load
+        document.addEventListener('DOMContentLoaded', renderJobs);
+    </script>
+</body>
+</html>

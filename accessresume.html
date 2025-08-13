@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Access Resumes - Jobsite</title>
+    <!-- Tailwind CSS CDN for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter font from Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7fafc;
+        }
+        .main-header {
+            background-color: #ffffff;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        .main-nav-link {
+            position: relative;
+            padding: 10px 15px;
+            text-transform: uppercase;
+            font-weight: 500;
+            color: #4a5568;
+            transition: color 0.3s ease;
+        }
+        .main-nav-link:hover,
+        .main-nav-link.active {
+            color: #3b82f6;
+        }
+        .main-nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            height: 2px;
+            background-color: #3b82f6;
+        }
+        .resume-card {
+            background-color: #ffffff;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 90%;
+            max-width: 800px;
+            border-radius: 1rem;
+            text-align: left;
+        }
+        .close-button {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close-button:hover,
+        .close-button:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <!-- Header starts -->
+    <header class="main-header sticky top-0 z-50">
+        <div class="container mx-auto px-4">
+            <nav class="flex items-center justify-between py-4">
+                <!-- Hamburger menu for mobile -->
+                <button id="mobile-menu-button" class="lg:hidden text-gray-700 focus:outline-none">
+                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                </button>
+                
+                <div class="hidden lg:flex items-center space-x-6 text-sm font-medium">
+                    <ul class="flex space-x-6">
+                        <li><a href="index.html" class="main-nav-link text-gray-700 hover:text-blue-500">Home</a></li>
+                        <li><a href="about.html" class="main-nav-link text-gray-700 hover:text-blue-500">About Us</a></li>
+                        <li><a href="job.html" class="main-nav-link text-gray-700 hover:text-blue-500">All Jobs</a></li>
+                        <li><a href="internship.html" class="main-nav-link text-gray-700 hover:text-blue-500">Internships</a></li>
+                        <li><a href="goverment.html" class="main-nav-link text-gray-700 hover:text-blue-500">Govt. Jobs</a></li>
+                        <li><a href="contact.html" class="main-nav-link text-gray-700 hover:text-blue-500">Contact Us</a></li>
+                    </ul>
+                </div>
+
+                <div class="flex items-center space-x-4">
+                    <div class="relative">
+                        <button id="user-menu-button" class="flex items-center focus:outline-none">
+                            <img src="img/profile.png" alt="User Avatar" class="rounded-full w-10 h-10 border-2 border-blue-500">
+                        </button>
+                        <div id="user-menu" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1">
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Dashboard</a>
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Edit Profile</a>
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Log Out</a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <!-- Header ends -->
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="lg:hidden hidden fixed inset-0 bg-white z-40 p-6 shadow-xl">
+        <div class="flex justify-end">
+            <button id="close-mobile-menu" class="text-gray-700 focus:outline-none">
+                <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+        <ul class="flex flex-col space-y-4 mt-8 text-lg font-medium">
+            <li><a href="index.html" class="block py-2 text-gray-700 hover:text-blue-500">Home</a></li>
+            <li><a href="about.html" class="block py-2 text-gray-700 hover:text-blue-500">About Us</a></li>
+            <li><a href="job.html" class="block py-2 text-gray-700 hover:text-blue-500">All Jobs</a></li>
+            <li><a href="internship.html" class="block py-2 text-gray-700 hover:text-blue-500">Internships</a></li>
+            <li><a href="goverment.html" class="block py-2 text-gray-700 hover:text-blue-500">Govt. Jobs</a></li>
+            <li><a href="contact.html" class="block py-2 text-gray-700 hover:text-blue-500">Contact Us</a></li>
+        </ul>
+    </div>
+    
+    <!-- Main content starts -->
+    <main class="flex-grow container mx-auto px-4 py-8">
+        <div class="text-center mb-10">
+            <h1 class="text-4xl font-bold text-gray-800">Access Resumes</h1>
+            <p class="text-gray-600 mt-2">Find the right talent for your company by browsing our resume database.</p>
+        </div>
+        
+        <!-- Search and Filter Bar -->
+        <div class="bg-white p-4 rounded-xl shadow-md mb-8">
+            <div class="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-4">
+                <input type="text" id="search-bar" placeholder="Search by name, skills, or location..." class="flex-grow p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <select id="filter-skill" class="p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option value="">All Skills</option>
+                    <option value="javascript">JavaScript</option>
+                    <option value="python">Python</option>
+                    <option value="react">React</option>
+                </select>
+                <button class="bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg hover:bg-blue-700 transition-colors duration-300">
+                    Search
+                </button>
+            </div>
+        </div>
+        
+        <!-- Resume Cards List -->
+        <div id="resume-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Resume cards will be dynamically added here -->
+        </div>
+    </main>
+    <!-- Main content ends -->
+
+    <!-- Resume detail modal box -->
+    <div id="resume-modal" class="modal">
+      <div class="modal-content">
+        <span class="close-button">&times;</span>
+        <div id="modal-resume-content">
+            <!-- Full resume details will be injected here -->
+        </div>
+      </div>
+    </div>
+    
+    <!-- Footer starts -->
+    <footer class="bg-gray-800 text-white py-12 mt-auto">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- Column 1: Information -->
+                <div>
+                    <h6 class="text-xl font-bold mb-4">Information</h6>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors duration-200">About Us</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors duration-200">Contact Us</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors duration-200">Terms of Use</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors duration-200">FAQs</a></li>
+                    </ul>
+                </div>
+                <!-- Column 2: Job Seekers -->
+                <div>
+                    <h6 class="text-xl font-bold mb-4">Job Seekers</h6>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors duration-200">Job Search</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors duration-200">Career Advice</a></li>
+                        <li><a href="resume.html" class="hover:text-white transition-colors duration-200">Resume Builder</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors duration-200">Report a Problem</a></li>
+                    </ul>
+                </div>
+                <!-- Column 3: Employers -->
+                <div>
+                    <h6 class="text-xl font-bold mb-4">Employers</h6>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="jobposting.html" class="hover:text-white transition-colors duration-200">Job Posting</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors duration-200">Advertise With Us</a></li>
+                        <li><a href="accessresume.html" class="hover:text-white transition-colors duration-200">Access Resumes</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors duration-200">FAQs</a></li>
+                    </ul>
+                </div>
+                <!-- Column 4: Stay Connected -->
+                <div>
+                    <h6 class="text-xl font-bold mb-4">Stay Connected</h6>
+                    <div class="flex flex-col space-y-2 text-sm text-gray-400">
+                        <a href="#" class="hover:text-white transition-colors duration-200"><i class="fa fa-facebook-official mr-2"></i>Facebook</a>
+                        <a href="#" class="hover:text-white transition-colors duration-200"><i class="fa fa-twitter mr-2"></i>Twitter</a>
+                        <a href="#" class="hover:text-white transition-colors duration-200"><i class="fa fa-linkedin mr-2"></i>LinkedIn</a>
+                        <a href="#" class="hover:text-white transition-colors duration-200"><i class="fa fa-instagram mr-2"></i>Instagram</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mt-8 pt-4 border-t border-gray-700 text-center text-gray-500 text-sm">
+            &copy; 2024 Jobsite. All Rights Reserved.
+        </div>
+    </footer>
+    <!-- Footer ends -->
+
+    <script>
+        // JavaScript for mobile menu and user dropdown
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const closeMobileMenu = document.getElementById('close-mobile-menu');
+        const userMenuButton = document.getElementById('user-menu-button');
+        const userMenu = document.getElementById('user-menu');
+
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.remove('hidden');
+        });
+        closeMobileMenu.addEventListener('click', () => {
+            mobileMenu.classList.add('hidden');
+        });
+
+        userMenuButton.addEventListener('click', (e) => {
+            e.stopPropagation();
+            userMenu.classList.toggle('hidden');
+        });
+
+        window.addEventListener('click', (event) => {
+            if (!userMenuButton.contains(event.target) && !userMenu.contains(event.target)) {
+                userMenu.classList.add('hidden');
+            }
+        });
+
+        // Mock resume data for demonstration
+        const resumes = [
+            {
+                id: 1,
+                name: 'Jane Doe',
+                title: 'Senior UX Designer',
+                location: 'Remote',
+                summary: 'Highly creative UX Designer with over 7 years of experience in designing user-centered products for mobile and web platforms. Proficient in Figma, Sketch, and Adobe XD.',
+                skills: ['UX Design', 'UI Design', 'Figma', 'User Research', 'Prototyping'],
+                full_resume: `
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold mb-2">Jane Doe</h3>
+                        <p class="text-sm text-gray-600 mb-4">janedoe@example.com | (555) 555-5555</p>
+                        
+                        <h4 class="text-xl font-semibold border-b pb-1 mb-2">Summary</h4>
+                        <p class="text-gray-700">${this.summary}</p>
+
+                        <h4 class="text-xl font-semibold border-b pb-1 mb-2 mt-4">Experience</h4>
+                        <div class="mb-4">
+                            <h5 class="font-bold">Senior UX Designer - Acme Corp.</h5>
+                            <p class="text-sm text-gray-600">2020 - Present</p>
+                            <ul class="list-disc ml-6 text-sm text-gray-700">
+                                <li>Led the redesign of the company's flagship mobile app, increasing user engagement by 25%.</li>
+                                <li>Conducted user research and usability testing to inform design decisions.</li>
+                            </ul>
+                        </div>
+                        
+                        <h4 class="text-xl font-semibold border-b pb-1 mb-2 mt-4">Education</h4>
+                        <div class="mb-4">
+                            <h5 class="font-bold">M.S. in Human-Computer Interaction - University of Design</h5>
+                            <p class="text-sm text-gray-600">Graduated 2018</p>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: 2,
+                name: 'John Smith',
+                title: 'Data Scientist',
+                location: 'New York, NY',
+                summary: 'Data Scientist with 5 years of experience in machine learning, data analysis, and predictive modeling. Skilled in Python, R, and SQL with a focus on business intelligence.',
+                skills: ['Data Science', 'Python', 'Machine Learning', 'SQL', 'Tableau'],
+                full_resume: `
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold mb-2">John Smith</h3>
+                        <p class="text-sm text-gray-600 mb-4">johnsmith@example.com | (555) 123-4567</p>
+
+                        <h4 class="text-xl font-semibold border-b pb-1 mb-2">Summary</h4>
+                        <p class="text-gray-700">${this.summary}</p>
+                        
+                        <h4 class="text-xl font-semibold border-b pb-1 mb-2 mt-4">Experience</h4>
+                        <div class="mb-4">
+                            <h5 class="font-bold">Data Scientist - Innovate Solutions</h5>
+                            <p class="text-sm text-gray-600">2019 - Present</p>
+                            <ul class="list-disc ml-6 text-sm text-gray-700">
+                                <li>Developed and deployed predictive models that improved customer retention by 15%.</li>
+                                <li>Utilized Python and SQL to clean and analyze large datasets.</li>
+                            </ul>
+                        </div>
+
+                        <h4 class="text-xl font-semibold border-b pb-1 mb-2 mt-4">Education</h4>
+                        <div class="mb-4">
+                            <h5 class="font-bold">B.S. in Statistics - Columbia University</h5>
+                            <p class="text-sm text-gray-600">Graduated 2019</p>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: 3,
+                name: 'Peter Jones',
+                title: 'Full Stack Engineer',
+                location: 'Austin, TX',
+                summary: 'Motivated Full Stack Engineer with 4 years of experience in building scalable web applications. Expertise in the MERN stack (MongoDB, Express, React, Node.js) and cloud services.',
+                skills: ['JavaScript', 'React', 'Node.js', 'Express', 'MongoDB'],
+                full_resume: `
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold mb-2">Peter Jones</h3>
+                        <p class="text-sm text-gray-600 mb-4">peter.jones@example.com | (555) 987-6543</p>
+
+                        <h4 class="text-xl font-semibold border-b pb-1 mb-2">Summary</h4>
+                        <p class="text-gray-700">${this.summary}</p>
+                        
+                        <h4 class="text-xl font-semibold border-b pb-1 mb-2 mt-4">Experience</h4>
+                        <div class="mb-4">
+                            <h5 class="font-bold">Software Developer - WebWorks</h5>
+                            <p class="text-sm text-gray-600">2020 - Present</p>
+                            <ul class="list-disc ml-6 text-sm text-gray-700">
+                                <li>Developed and maintained full-stack web applications using the MERN stack.</li>
+                                <li>Implemented RESTful APIs and integrated with third-party services.</li>
+                            </ul>
+                        </div>
+
+                        <h4 class="text-xl font-semibold border-b pb-1 mb-2 mt-4">Education</h4>
+                        <div class="mb-4">
+                            <h5 class="font-bold">B.S. in Computer Science - University of Texas at Austin</h5>
+                            <p class="text-sm text-gray-600">Graduated 2020</p>
+                        </div>
+                    </div>
+                `
+            }
+        ];
+
+        // Function to render resume cards
+        function renderResumes() {
+            const resumeList = document.getElementById('resume-list');
+            resumeList.innerHTML = ''; // Clear existing cards
+
+            resumes.forEach(resume => {
+                const card = document.createElement('div');
+                card.classList.add('resume-card');
+                card.innerHTML = `
+                    <h3 class="text-xl font-bold">${resume.name}</h3>
+                    <p class="text-gray-600 mt-1">${resume.title}</p>
+                    <p class="text-sm text-gray-500 mt-1"><i class="fa fa-map-marker mr-2"></i>${resume.location}</p>
+                    <p class="text-gray-700 mt-4">${resume.summary}</p>
+                    <div class="mt-4 flex flex-wrap gap-2">
+                        ${resume.skills.map(skill => `<span class="bg-gray-200 text-gray-800 text-xs font-semibold px-2 py-1 rounded-full">${skill}</span>`).join('')}
+                    </div>
+                    <div class="mt-6 text-center">
+                        <button class="view-resume-button bg-blue-600 text-white font-semibold py-2 px-6 rounded-lg hover:bg-blue-700 transition-colors duration-300" data-id="${resume.id}">
+                            View Resume
+                        </button>
+                    </div>
+                `;
+                resumeList.appendChild(card);
+            });
+
+            // Add event listeners to the new buttons
+            document.querySelectorAll('.view-resume-button').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const resumeId = e.target.getAttribute('data-id');
+                    showResumeModal(resumeId);
+                });
+            });
+        }
+
+        // Modal functionality
+        const resumeModal = document.getElementById('resume-modal');
+        const modalResumeContent = document.getElementById('modal-resume-content');
+        const modalCloseButtons = resumeModal.querySelectorAll('.close-button');
+
+        function showResumeModal(id) {
+            const resume = resumes.find(r => r.id == id);
+            if (resume) {
+                modalResumeContent.innerHTML = resume.full_resume;
+                resumeModal.style.display = 'block';
+            }
+        }
+        
+        modalCloseButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                resumeModal.style.display = 'none';
+            });
+        });
+
+        window.addEventListener('click', (event) => {
+            if (event.target === resumeModal) {
+                resumeModal.style.display = 'none';
+            }
+        });
+
+
+        // Initial render on page load
+        document.addEventListener('DOMContentLoaded', renderResumes);
+    </script>
+</body>
+</html>

@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Jobsite</title>
+    <!-- Tailwind CSS CDN for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter font from Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7fafc;
+        }
+        .main-header {
+            background-color: #ffffff;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        .main-nav-link {
+            position: relative;
+            padding: 10px 15px;
+            text-transform: uppercase;
+            font-weight: 500;
+            color: #4a5568;
+            transition: color 0.3s ease;
+        }
+        .main-nav-link:hover,
+        .main-nav-link.active {
+            color: #3b82f6;
+        }
+        .main-nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            height: 2px;
+            background-color: #3b82f6;
+        }
+        .dashboard-card {
+            background-color: #ffffff;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            width: 90%;
+            max-width: 500px;
+        }
+        .close-button {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close-button:hover,
+        .close-button:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .input-group {
+            margin-bottom: 1rem;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #4a5568;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+            box-shadow: inset 0 1px 2px rgba(0,0,0,0.06);
+            transition: border-color 0.3s;
+        }
+        .input-group input:focus {
+            outline: none;
+            border-color: #3b82f6;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <!-- Header starts -->
+    <header class="main-header sticky top-0 z-50">
+        <div class="container mx-auto px-4">
+            <nav class="flex items-center justify-between py-4">
+                <!-- Hamburger menu for mobile -->
+                <button id="mobile-menu-button" class="lg:hidden text-gray-700 focus:outline-none">
+                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                </button>
+                
+                <div class="hidden lg:flex items-center space-x-6 text-sm font-medium">
+                    <ul class="flex space-x-6">
+                        <li><a href="index.html" class="main-nav-link text-gray-700 hover:text-blue-500">Home</a></li>
+                        <li><a href="about.html" class="main-nav-link text-gray-700 hover:text-blue-500">About Us</a></li>
+                        <li><a href="job.html" class="main-nav-link text-gray-700 hover:text-blue-500">All Jobs</a></li>
+                        <li><a href="internship.html" class="main-nav-link text-gray-700 hover:text-blue-500">Internships</a></li>
+                        <li><a href="goverment.html" class="main-nav-link text-gray-700 hover:text-blue-500">Govt. Jobs</a></li>
+                        <li><a href="contact.html" class="main-nav-link text-gray-700 hover:text-blue-500">Contact Us</a></li>
+                    </ul>
+                </div>
+
+                <div class="flex items-center space-x-4">
+                    <div class="relative">
+                        <button id="user-menu-button" class="flex items-center focus:outline-none">
+                            <img src="https://placehold.co/40x40/3b82f6/ffffff?text=E" alt="User Avatar" class="rounded-full w-10 h-10 border-2 border-blue-500">
+                        </button>
+                        <div id="user-menu" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1">
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Dashboard</a>
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Edit Profile</a>
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Log Out</a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <!-- Header ends -->
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="lg:hidden hidden fixed inset-0 bg-white z-40 p-6 shadow-xl">
+        <div class="flex justify-end">
+            <button id="close-mobile-menu" class="text-gray-700 focus:outline-none">
+                <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+        <ul class="flex flex-col space-y-4 mt-8 text-lg font-medium">
+            <li><a href="#" class="block py-2 text-gray-700 hover:text-blue-500">Home</a></li>
+            <li><a href="#" class="block py-2 text-gray-700 hover:text-blue-500">About Us</a></li>
+            <li><a href="#" class="block py-2 text-gray-700 hover:text-blue-500">All Jobs</a></li>
+            <li><a href="#" class="block py-2 text-gray-700 hover:text-blue-500">Internships</a></li>
+            <li><a href="#" class="block py-2 text-gray-700 hover:text-blue-500">Govt. Jobs</a></li>
+            <li><a href="#" class="block py-2 text-gray-700 hover:text-blue-500">Contact Us</a></li>
+        </ul>
+    </div>
+    
+    <!-- Main content starts -->
+    <main class="flex-grow container mx-auto px-4 py-8">
+        <div class="text-center mb-10">
+            <h1 class="text-4xl font-bold text-gray-800">Your Dashboard</h1>
+            <p class="text-gray-600 mt-2">Welcome back, <span id="user-name" class="font-semibold text-blue-600">Elias!</span> Here's a summary of your activities.</p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- My Applications Section -->
+            <div class="dashboard-card">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-2xl font-bold text-gray-800">My Applications</h2>
+                    <span id="application-count" class="bg-blue-100 text-blue-800 text-sm font-semibold px-2.5 py-0.5 rounded-full"></span>
+                </div>
+                <div id="applications-list" class="space-y-4">
+                    <!-- Applications will be dynamically added here -->
+                </div>
+                <button id="add-application" class="mt-4 w-full text-blue-600 border border-blue-600 font-semibold py-2 px-4 rounded-lg hover:bg-blue-100 transition-colors duration-300">
+                    Simulate New Application
+                </button>
+            </div>
+
+            <!-- Saved Jobs Section -->
+            <div class="dashboard-card">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-2xl font-bold text-gray-800">Saved Jobs</h2>
+                    <span id="saved-jobs-count" class="bg-blue-100 text-blue-800 text-sm font-semibold px-2.5 py-0.5 rounded-full"></span>
+                </div>
+                <div id="saved-jobs-list" class="space-y-4">
+                    <!-- Saved jobs will be dynamically added here -->
+                </div>
+                <button id="add-saved-job" class="mt-4 w-full text-blue-600 border border-blue-600 font-semibold py-2 px-4 rounded-lg hover:bg-blue-100 transition-colors duration-300">
+                    Simulate Saved Job
+                </button>
+            </div>
+
+            <!-- Profile Summary Section -->
+            <div class="dashboard-card md:col-span-1 lg:col-span-1">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Profile Summary</h2>
+                <div class="text-center mb-4">
+                    <img id="user-avatar" src="https://placehold.co/100x100/3b82f6/ffffff?text=E" alt="User Avatar" class="rounded-full mx-auto w-24 h-24 border-4 border-blue-500">
+                </div>
+                <div class="space-y-2">
+                    <p class="text-gray-700"><strong>Name:</strong> <span id="profile-name-display">Elias</span></p>
+                    <p class="text-gray-700"><strong>Email:</strong> <span id="profile-email-display">elias@example.com</span></p>
+                    <p class="text-gray-700"><strong>Resume Status:</strong> <span class="text-green-500">Uploaded</span></p>
+                </div>
+                <div class="mt-6">
+                    <button id="edit-profile-button" class="w-full bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors duration-300">
+                        Edit Profile
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+    <!-- Main content ends -->
+
+    <!-- Edit Profile Modal -->
+    <div id="edit-profile-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Edit Profile</h2>
+            <div class="input-group">
+                <label for="profile-name-input">Name</label>
+                <input type="text" id="profile-name-input" class="w-full">
+            </div>
+            <div class="input-group">
+                <label for="profile-email-input">Email</label>
+                <input type="email" id="profile-email-input" class="w-full">
+            </div>
+            <div class="mt-6">
+                <button id="save-profile-button" class="w-full bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors duration-300">
+                    Save Changes
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer starts -->
+    <footer class="bg-gray-800 text-white py-12 mt-auto">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- Column 1: Information -->
+                <div>
+                    <h6 class="text-xl font-bold mb-4">Information</h6>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors duration-200">About Us</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors duration-200">Contact Us</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors duration-200">Terms of Use</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors duration-200">FAQs</a></li>
+                    </ul>
+                </div>
+                <!-- Column 2: Job Seekers -->
+                <div>
+                    <h6 class="text-xl font-bold mb-4">Job Seekers</h6>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors duration-200">Job Search</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors duration-200">Career Advice</a></li>
+                        <li><a href="resume.html" class="hover:text-white transition-colors duration-200">Resume Builder</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors duration-200">Report a Problem</a></li>
+                    </ul>
+                </div>
+                <!-- Column 3: Employers -->
+                <div>
+                    <h6 class="text-xl font-bold mb-4">Employers</h6>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="jobposting.html" class="hover:text-white transition-colors duration-200">Job Posting</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors duration-200">Advertise With Us</a></li>
+                        <li><a href="accessresume.html" class="hover:text-white transition-colors duration-200">Access Resumes</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors duration-200">FAQs</a></li>
+                    </ul>
+                </div>
+                <!-- Column 4: Stay Connected -->
+                <div>
+                    <h6 class="text-xl font-bold mb-4">Stay Connected</h6>
+                    <div class="flex flex-col space-y-2 text-sm text-gray-400">
+                        <a href="#" class="hover:text-white transition-colors duration-200"><i class="fa fa-facebook-official mr-2"></i>Facebook</a>
+                        <a href="#" class="hover:text-white transition-colors duration-200"><i class="fa fa-twitter mr-2"></i>Twitter</a>
+                        <a href="#" class="hover:text-white transition-colors duration-200"><i class="fa fa-linkedin mr-2"></i>LinkedIn</a>
+                        <a href="#" class="hover:text-white transition-colors duration-200"><i class="fa fa-instagram mr-2"></i>Instagram</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mt-8 pt-4 border-t border-gray-700 text-center text-gray-500 text-sm">
+            &copy; 2024 Jobsite. All Rights Reserved.
+        </div>
+    </footer>
+    <!-- Footer ends -->
+
+    <script>
+        // JavaScript for mobile menu and user dropdown
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const closeMobileMenu = document.getElementById('close-mobile-menu');
+        const userMenuButton = document.getElementById('user-menu-button');
+        const userMenu = document.getElementById('user-menu');
+
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.remove('hidden');
+        });
+        closeMobileMenu.addEventListener('click', () => {
+            mobileMenu.classList.add('hidden');
+        });
+
+        userMenuButton.addEventListener('click', (e) => {
+            e.stopPropagation();
+            userMenu.classList.toggle('hidden');
+        });
+
+        window.addEventListener('click', (event) => {
+            if (!userMenuButton.contains(event.target) && !userMenu.contains(event.target)) {
+                userMenu.classList.add('hidden');
+            }
+        });
+        
+        // --- Dashboard specific functionality ---
+
+        // Mock data for user profile, applications, and saved jobs
+        let currentUser = {
+            name: 'Elias',
+            email: 'elias@example.com',
+            avatarText: 'E'
+        };
+
+        const myApplications = [
+            { id: 1, jobTitle: 'Senior Software Engineer', company: 'Tech Solutions Inc.', status: 'Reviewing' },
+            { id: 2, jobTitle: 'Product Manager', company: 'Creative Labs', status: 'Submitted' },
+            { id: 3, jobTitle: 'UX/UI Designer', company: 'Design First', status: 'Interview Scheduled' }
+        ];
+
+        const savedJobs = [
+            { id: 4, jobTitle: 'Data Scientist', company: 'Data Insights Co.' },
+            { id: 5, jobTitle: 'Marketing Specialist', company: 'Global Marketing' }
+        ];
+
+        // Function to render applications
+        function renderApplications() {
+            const applicationsList = document.getElementById('applications-list');
+            applicationsList.innerHTML = '';
+            myApplications.forEach(app => {
+                const appDiv = document.createElement('div');
+                appDiv.classList.add('p-4', 'border', 'border-gray-200', 'rounded-lg');
+                appDiv.innerHTML = `
+                    <h4 class="font-semibold text-gray-800">${app.jobTitle}</h4>
+                    <p class="text-sm text-gray-600">${app.company}</p>
+                    <p class="text-sm mt-1">Status: <span class="font-medium text-blue-600">${app.status}</span></p>
+                `;
+                applicationsList.appendChild(appDiv);
+            });
+            // Update the application count dynamically
+            document.getElementById('application-count').textContent = myApplications.length;
+        }
+
+        // Function to render saved jobs
+        function renderSavedJobs() {
+            const savedJobsList = document.getElementById('saved-jobs-list');
+            savedJobsList.innerHTML = '';
+            savedJobs.forEach(job => {
+                const jobDiv = document.createElement('div');
+                jobDiv.classList.add('p-4', 'border', 'border-gray-200', 'rounded-lg', 'flex', 'justify-between', 'items-center');
+                jobDiv.innerHTML = `
+                    <div>
+                        <h4 class="font-semibold text-gray-800">${job.jobTitle}</h4>
+                        <p class="text-sm text-gray-600">${job.company}</p>
+                    </div>
+                    <button class="remove-saved-job-button text-red-500 hover:text-red-700 text-sm font-semibold" data-job-id="${job.id}">Unsave</button>
+                `;
+                savedJobsList.appendChild(jobDiv);
+            });
+            // Update the saved jobs count dynamically
+            document.getElementById('saved-jobs-count').textContent = savedJobs.length;
+
+            // Add event listeners to the new "Unsave" buttons
+            document.querySelectorAll('.remove-saved-job-button').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const jobId = parseInt(e.target.getAttribute('data-job-id'));
+                    const jobIndex = savedJobs.findIndex(j => j.id === jobId);
+                    if (jobIndex > -1) {
+                        savedJobs.splice(jobIndex, 1);
+                        renderSavedJobs(); // Re-render the list to reflect the change
+                    }
+                });
+            });
+        }
+
+        // Function to update the profile summary
+        function updateProfileSummary() {
+            document.getElementById('user-name').textContent = currentUser.name;
+            document.getElementById('profile-name-display').textContent = currentUser.name;
+            document.getElementById('profile-email-display').textContent = currentUser.email;
+            const firstLetter = currentUser.name.charAt(0).toUpperCase();
+            document.getElementById('user-avatar').src = `https://placehold.co/100x100/3b82f6/ffffff?text=${firstLetter}`;
+            userMenuButton.querySelector('img').src = `https://placehold.co/40x40/3b82f6/ffffff?text=${firstLetter}`;
+        }
+
+
+        // --- Event Listeners for Dynamic Functionality ---
+
+        // My Applications: Simulate adding a new application
+        document.getElementById('add-application').addEventListener('click', () => {
+            const newId = myApplications.length > 0 ? Math.max(...myApplications.map(app => app.id)) + 1 : 1;
+            myApplications.push({
+                id: newId,
+                jobTitle: `New Application ${newId}`,
+                company: 'New Company',
+                status: 'Submitted'
+            });
+            renderApplications();
+        });
+
+        // Saved Jobs: Simulate saving a new job
+        document.getElementById('add-saved-job').addEventListener('click', () => {
+            const newId = savedJobs.length > 0 ? Math.max(...savedJobs.map(job => job.id)) + 1 : 1;
+            savedJobs.push({
+                id: newId,
+                jobTitle: `New Saved Job ${newId}`,
+                company: 'Another Company'
+            });
+            renderSavedJobs();
+        });
+
+        // Edit Profile: Show and hide the modal
+        const editProfileButton = document.getElementById('edit-profile-button');
+        const editProfileModal = document.getElementById('edit-profile-modal');
+        const modalCloseButton = editProfileModal.querySelector('.close-button');
+        const profileNameInput = document.getElementById('profile-name-input');
+        const profileEmailInput = document.getElementById('profile-email-input');
+        const saveProfileButton = document.getElementById('save-profile-button');
+
+        editProfileButton.addEventListener('click', () => {
+            // Populate the modal with current user data
+            profileNameInput.value = currentUser.name;
+            profileEmailInput.value = currentUser.email;
+            editProfileModal.style.display = 'block';
+        });
+
+        modalCloseButton.addEventListener('click', () => {
+            editProfileModal.style.display = 'none';
+        });
+
+        window.addEventListener('click', (event) => {
+            if (event.target === editProfileModal) {
+                editProfileModal.style.display = 'none';
+            }
+        });
+
+        // Edit Profile: Save changes
+        saveProfileButton.addEventListener('click', () => {
+            // Update the user object with the new values
+            currentUser.name = profileNameInput.value;
+            currentUser.email = profileEmailInput.value;
+
+            // Re-render the profile summary
+            updateProfileSummary();
+            editProfileModal.style.display = 'none';
+        });
+
+        // Initial render on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            renderApplications();
+            renderSavedJobs();
+            updateProfileSummary();
+        });
+    </script>
+</body>
+</html>
